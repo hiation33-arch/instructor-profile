@@ -11,7 +11,7 @@
 
   body{
     font-family:'Noto Serif KR', serif;
-    background:#000;
+    background:#000 url('curtain.png') center center / cover no-repeat;
     overflow:hidden;
     cursor:pointer;
     user-select:none;
@@ -21,7 +21,7 @@
   .curtain-bg{
     position:fixed; inset:0;
     background: url('curtain.png') center center / cover no-repeat;
-    z-index:0;
+    z-index:1;
     animation: subtleZoom 12s ease-in-out infinite alternate;
   }
   @keyframes subtleZoom{
@@ -34,17 +34,14 @@
     position:fixed; inset:0;
     width:100%; height:100%;
     object-fit:cover;
-    z-index:1;
-    opacity:0;
-    transition: opacity 1s ease;
+    z-index:2;
   }
-  .curtain-video.loaded{ opacity:1; }
 
   /* 루프 튐 페이드 처리 */
   .loop-fade{
     position:fixed; inset:0;
     background:#000;
-    z-index:2;
+    z-index:3;
     opacity:0;
     pointer-events:none;
     transition: opacity .5s ease;
@@ -57,7 +54,7 @@
     background: radial-gradient(ellipse 60% 80% at 28% 40%,
       rgba(255,245,230,.18) 0%,
       transparent 70%);
-    z-index:3;
+    z-index:4;
     animation: lightSway 6s ease-in-out infinite alternate;
   }
   @keyframes lightSway{
@@ -74,7 +71,7 @@
       rgba(10,22,16,.52) 60%,
       rgba(10,22,16,.72) 100%
     );
-    z-index:4;
+    z-index:5;
   }
 
   /* 중앙 텍스트 */
@@ -82,7 +79,7 @@
     position:fixed; inset:0;
     display:flex; flex-direction:column;
     align-items:center; justify-content:center;
-    z-index:5;
+    z-index:6;
     text-align:center;
     padding:24px;
   }
@@ -184,11 +181,6 @@
   const loopFade = document.getElementById('loopFade');
   const bgm = document.getElementById('bgm');
   let entered = false;
-
-  // 영상 로드 성공시 표시
-  video.addEventListener('canplay', () => {
-    video.classList.add('loaded');
-  });
 
   // 영상 끝 0.8초 전 페이드 시작
   video.addEventListener('timeupdate', () => {
