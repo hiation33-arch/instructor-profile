@@ -186,38 +186,50 @@
   let entered = false;
 
   // 영상 로드 성공시 표시
-  video.addEventListener('canplay', ()=>{
+  video.addEventListener('canplay', () => {
     video.classList.add('loaded');
   });
 
-  // 루프 튐 페이드 처리 — 영상 끝 0.7초 전에 페이드아웃
-  video.addEventListener('timeupdate', ()=>{
-    if(!video.duration) return;
+  // 영상 끝 0.8초 전 페이드 시작
+  video.addEventListener('timeupdate', () => {
+    if (!video.duration) return;
     const remaining = video.duration - video.currentTime;
-    if(remaining < 0.7){
+    if (remaining < 0.8) {
       loopFade.classList.add('show');
-    } else if(remaining > 1.0){
-      loopFade.classList.remove('show');
     }
   });
 
+  // 영상 종료 → 수동 루프: seeked + 2 rAF 후 페이드 제거 (회색 프레임 방지)
+  video.addEventListener('ended', () => {
+    video.currentTime = 0;
+    video.play().catch(() => {});
+    const onSeeked = () => {
+      video.removeEventListener('seeked', onSeeked);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        loopFade.classList.remove('show');
+      }));
+    };
+    video.addEventListener('seeked', onSeeked);
+  });
+
   // 클릭시 진입
-  document.body.addEventListener('click', ()=>{
-    if(entered) return;
+  document.body.addEventListener('click', () => {
+    if (entered) return;
     entered = true;
 
+    // play() 성공 확인 후 볼륨 페이드인 시작
     bgm.volume = 0;
-    bgm.play().catch(()=>{});
-
-    let vol = 0;
-    const fadeIn = setInterval(()=>{
-      vol = Math.min(vol + 0.04, 0.55);
-      bgm.volume = vol;
-      if(vol >= 0.55) clearInterval(fadeIn);
-    }, 80);
+    bgm.play().then(() => {
+      let vol = 0;
+      const fadeIn = setInterval(() => {
+        vol = Math.min(vol + 0.04, 0.55);
+        bgm.volume = vol;
+        if (vol >= 0.55) clearInterval(fadeIn);
+      }, 80);
+    }).catch(() => {});
 
     document.body.classList.add('leaving');
-    setTimeout(()=>{
+    setTimeout(() => {
       window.location.href = 'index.html';
     }, 950);
   });
