@@ -17,26 +17,47 @@
     user-select:none;
   }
 
-  /* 커튼 배경 이미지 */
+  /* fallback 이미지 (영상 로드 전 또는 영상 없을 때) */
   .curtain-bg{
     position:fixed; inset:0;
     background: url('curtain.png') center center / cover no-repeat;
     z-index:0;
     animation: subtleZoom 12s ease-in-out infinite alternate;
   }
-
   @keyframes subtleZoom{
     from{ transform:scale(1); }
     to{ transform:scale(1.06); }
   }
 
-  /* 커튼 살랑이는 느낌 — 왼쪽 밝기 미세 변화 */
+  /* 커튼 영상 */
+  .curtain-video{
+    position:fixed; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    z-index:1;
+    opacity:0;
+    transition: opacity 1s ease;
+  }
+  .curtain-video.loaded{ opacity:1; }
+
+  /* 루프 튐 페이드 처리 */
+  .loop-fade{
+    position:fixed; inset:0;
+    background:#000;
+    z-index:2;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity .5s ease;
+  }
+  .loop-fade.show{ opacity:1; }
+
+  /* 빛 효과 */
   .curtain-light{
     position:fixed; inset:0;
     background: radial-gradient(ellipse 60% 80% at 28% 40%,
       rgba(255,245,230,.18) 0%,
       transparent 70%);
-    z-index:1;
+    z-index:3;
     animation: lightSway 6s ease-in-out infinite alternate;
   }
   @keyframes lightSway{
@@ -53,7 +74,7 @@
       rgba(10,22,16,.52) 60%,
       rgba(10,22,16,.72) 100%
     );
-    z-index:2;
+    z-index:4;
   }
 
   /* 중앙 텍스트 */
@@ -61,7 +82,7 @@
     position:fixed; inset:0;
     display:flex; flex-direction:column;
     align-items:center; justify-content:center;
-    z-index:3;
+    z-index:5;
     text-align:center;
     padding:24px;
   }
@@ -109,6 +130,7 @@
 
   /* 진입 트랜지션 */
   .curtain-bg,
+  .curtain-video,
   .curtain-light,
   .veil,
   .center{
@@ -116,6 +138,7 @@
   }
 
   body.leaving .curtain-bg,
+  body.leaving .curtain-video,
   body.leaving .curtain-light,
   body.leaving .veil,
   body.leaving .center{
@@ -132,6 +155,13 @@
 <body>
 
 <div class="curtain-bg"></div>
+
+<!-- curtain.mp4 파일을 폴더에 넣으면 자동으로 영상으로 전환됩니다 -->
+<video class="curtain-video" id="curtainVideo" autoplay muted playsinline>
+  <source src="curtain.mp4" type="video/mp4">
+</video>
+
+<div class="loop-fade" id="loopFade"></div>
 <div class="curtain-light"></div>
 <div class="veil"></div>
 
@@ -150,18 +180,35 @@
 </audio>
 
 <script>
+  const video = document.getElementById('curtainVideo');
+  const loopFade = document.getElementById('loopFade');
   const bgm = document.getElementById('bgm');
   let entered = false;
 
+  // 영상 로드 성공시 표시
+  video.addEventListener('canplay', ()=>{
+    video.classList.add('loaded');
+  });
+
+  // 루프 튐 페이드 처리 — 영상 끝 0.7초 전에 페이드아웃
+  video.addEventListener('timeupdate', ()=>{
+    if(!video.duration) return;
+    const remaining = video.duration - video.currentTime;
+    if(remaining < 0.7){
+      loopFade.classList.add('show');
+    } else if(remaining > 1.0){
+      loopFade.classList.remove('show');
+    }
+  });
+
+  // 클릭시 진입
   document.body.addEventListener('click', ()=>{
     if(entered) return;
     entered = true;
 
-    // 음악 재생
     bgm.volume = 0;
     bgm.play().catch(()=>{});
 
-    // 볼륨 페이드인
     let vol = 0;
     const fadeIn = setInterval(()=>{
       vol = Math.min(vol + 0.04, 0.55);
@@ -169,7 +216,6 @@
       if(vol >= 0.55) clearInterval(fadeIn);
     }, 80);
 
-    // 화면 페이드아웃 후 본문으로
     document.body.classList.add('leaving');
     setTimeout(()=>{
       window.location.href = 'index.html';
