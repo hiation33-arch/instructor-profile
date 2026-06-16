@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 리터러시 강사 · 은미</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky:#C8E6F5;
+    --sky-soft:#E4F3FB;
+    --sky-deep:#8DCAE8;
+    --peach:#F7C5A8;
+    --peach-soft:#FDE8DA;
+    --peach-deep:#F0A07A;
+    --ink:#2C2C2C;
+    --muted:#7A7A7A;
+    --white:#FFFFFF;
+    --serif:'Noto Serif KR', serif;
+    --sans:'Noto Sans KR', sans-serif;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  .wrap{ max-width:1020px; margin:0 auto; padding:0 32px; }
+
+  /* ===== HERO ===== */
+  .hero{
+    min-height:100svh;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    align-items:center;
+    gap:0;
+    padding:80px 0;
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* 배경 원 장식 */
+  .hero::before{
+    content:"";
+    position:absolute;
+    width:420px; height:420px;
+    border-radius:50%;
+    background:var(--sky-soft);
+    top:-60px; right:40px;
+    z-index:0;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    width:200px; height:200px;
+    border-radius:50%;
+    background:var(--peach-soft);
+    bottom:80px; left:40px;
+    z-index:0;
+  }
+
+  .hero__text{
+    position:relative; z-index:1;
+    padding:0 24px 0 0;
+  }
+
+  .hero__label{
+    font-size:.78rem;
+    letter-spacing:.18em;
+    color:var(--sky-deep);
+    font-weight:500;
+    margin-bottom:24px;
+    opacity:0;
+    animation:fadeUp .8s ease forwards .2s;
+  }
+
+  .hero__hook{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(1.9rem, 4.2vw, 3rem);
+    line-height:1.5;
+    color:var(--ink);
+    margin-bottom:28px;
+    opacity:0;
+    animation:fadeUp .9s ease forwards .45s;
+  }
+
+  .hero__hook em{
+    font-style:normal;
+    background:linear-gradient(transparent 65%, var(--peach) 65%);
+  }
+
+  .hero__sub{
+    font-size:1rem;
+    color:var(--muted);
+    line-height:1.85;
+    max-width:38ch;
+    opacity:0;
+    animation:fadeUp .9s ease forwards .7s;
+  }
+
+  .hero__img{
+    position:relative; z-index:1;
+    display:flex; justify-content:center; align-items:center;
+    opacity:0;
+    animation:fadeUp .9s ease forwards .9s;
+  }
+
+  .hero__img-frame{
+    width:100%;
+    max-width:340px;
+    aspect-ratio:1/1;
+    border-radius:50%;
+    overflow:hidden;
+    background:var(--sky-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.88rem;
+    color:var(--sky-deep);
+    letter-spacing:.05em;
+  }
+
+  .hero__img-frame img{
+    width:100%; height:100%; object-fit:cover;
+  }
+
+  /* ===== SECTION BASE ===== */
+  .section{ padding:100px 0; }
+
+  .section__small{
+    font-size:.75rem;
+    letter-spacing:.18em;
+    font-weight:500;
+    color:var(--sky-deep);
+    margin-bottom:16px;
+  }
+
+  .section__title{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(1.5rem, 3vw, 2.1rem);
+    line-height:1.5;
+    color:var(--ink);
+    margin-bottom:12px;
+  }
+
+  .section__lead{
+    color:var(--muted);
+    font-size:.97rem;
+    max-width:44ch;
+    line-height:1.85;
+  }
+
+  /* reveal */
+  .reveal{
+    opacity:0; transform:translateY(24px);
+    transition:opacity .75s ease, transform .75s cubic-bezier(.2,.7,.2,1);
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+  .reveal.d1{ transition-delay:.1s; }
+  .reveal.d2{ transition-delay:.2s; }
+  .reveal.d3{ transition-delay:.3s; }
+
+  /* ===== 강의 분야 ===== */
+  .fields-wrap{
+    margin-top:60px;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+
+  .field-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:0;
+    border-top:1px solid #eee;
+    padding:44px 0;
+    align-items:center;
+  }
+  .field-row:last-child{ border-bottom:1px solid #eee; }
+
+  .field-row:nth-child(even) .field__img{ order:-1; }
+
+  .field__text{ padding:0 40px 0 0; }
+  .field-row:nth-child(even) .field__text{ padding:0 0 0 40px; }
+
+  .field__num{
+    font-family:var(--serif);
+    font-size:2.8rem;
+    font-weight:300;
+    color:var(--sky);
+    line-height:1;
+    margin-bottom:12px;
+  }
+
+  .field__name{
+    font-size:1.22rem;
+    font-weight:600;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+
+  .field__desc{
+    font-size:.95rem;
+    color:var(--muted);
+    line-height:1.85;
+    max-width:36ch;
+  }
+
+  .field__img{
+    width:100%;
+    aspect-ratio:4/3;
+    border-radius:20px;
+    overflow:hidden;
+    background:var(--sky-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.82rem; color:var(--sky-deep);
+    letter-spacing:.04em;
+  }
+  .field__img.peach-bg{ background:var(--peach-soft); color:var(--peach-deep); }
+  .field__img.sky-bg{ background:var(--sky-soft); color:var(--sky-deep); }
+
+  .field__img img{ width:100%; height:100%; object-fit:cover; }
+
+  /* ===== 강의 배경 ===== */
+  .bg-section{ background:var(--white); }
+
+  .creds-wrap{
+    margin-top:56px;
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:28px 48px;
+  }
+
+  .cred{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    padding-bottom:28px;
+    border-bottom:1px solid #f0f0f0;
+  }
+
+  .cred__main{
+    font-size:1.02rem;
+    font-weight:600;
+    color:var(--ink);
+  }
+
+  .cred__sub{
+    font-size:.88rem;
+    color:var(--muted);
+    line-height:1.7;
+  }
+
+  .cred__dot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--peach);
+    margin-bottom:8px;
+  }
+
+  /* ===== 직접 만든 것들 ===== */
+  .works-wrap{
+    margin-top:56px;
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:32px;
+  }
+
+  .work{
+    text-decoration:none;
+    color:inherit;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+  }
+
+  .work__thumb{
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:16px;
+    overflow:hidden;
+    background:var(--sky-soft);
+    display:flex; align-items:center; justify-content:center;
+    font-size:.82rem; color:var(--sky-deep);
+    transition:transform .35s ease;
+  }
+  .work:hover .work__thumb{ transform:scale(1.02); }
+  .work__thumb.peach{ background:var(--peach-soft); color:var(--peach-deep); }
+  .work__thumb img{ width:100%; height:100%; object-fit:cover; }
+
+  .work__badge{
+    display:inline-block;
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.05em;
+    padding:4px 12px;
+    border-radius:999px;
+    background:var(--peach-soft);
+    color:var(--peach-deep);
+  }
+  .work__badge.sky{
+    background:var(--sky-soft);
+    color:var(--sky-deep);
+  }
+
+  .work__name{
+    font-size:1.05rem;
+    font-weight:600;
+    color:var(--ink);
+  }
+
+  .work__desc{
+    font-size:.92rem;
+    color:var(--muted);
+    line-height:1.8;
+  }
+
+  /* ===== 강의 철학 ===== */
+  .philosophy{
+    padding:100px 0;
+    background:var(--sky-soft);
+  }
+
+  .philosophy__inner{
+    display:grid;
+    grid-template-columns:1fr 1.4fr;
+    gap:80px;
+    align-items:start;
+  }
+
+  .philosophy__quote{
+    font-family:var(--serif);
+    font-size:clamp(1.4rem, 2.8vw, 2rem);
+    font-weight:300;
+    line-height:1.6;
+    color:var(--ink);
+    position:sticky;
+    top:80px;
+  }
+
+  .philosophy__quote strong{
+    font-weight:500;
+    background:linear-gradient(transparent 65%, var(--peach) 65%);
+  }
+
+  .philosophy__body{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
+  }
+
+  .philosophy__body p{
+    font-size:1rem;
+    color:#4a4a4a;
+    line-height:1.95;
+  }
+
+  /* ===== CTA ===== */
+  .cta{
+    padding:120px 0;
+    text-align:center;
+  }
+
+  .cta__title{
+    font-family:var(--serif);
+    font-weight:400;
+    font-size:clamp(1.8rem, 3.5vw, 2.6rem);
+    color:var(--ink);
+    margin-bottom:16px;
+  }
+
+  .cta__lead{
+    font-size:1rem;
+    color:var(--muted);
+    margin-bottom:44px;
+    line-height:1.85;
+  }
+
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:var(--peach);
+    color:var(--ink);
+    font-weight:600;
+    font-size:.95rem;
+    padding:16px 36px;
+    border-radius:999px;
+    text-decoration:none;
+    transition:background .25s ease, transform .25s ease, box-shadow .25s ease;
+    letter-spacing:.02em;
+  }
+  .btn:hover{
+    background:var(--peach-deep);
+    transform:translateY(-3px);
+    box-shadow:0 14px 30px -10px rgba(240,160,122,.5);
+  }
+
+  /* floating */
+  .float-cta{
+    position:fixed; right:22px; bottom:22px; z-index:50;
+    background:var(--peach);
+    color:var(--ink);
+    font-weight:700;
+    font-size:.88rem;
+    padding:13px 22px;
+    border-radius:999px;
+    text-decoration:none;
+    box-shadow:0 10px 26px -8px rgba(240,160,122,.6);
+    opacity:0; transform:translateY(14px); pointer-events:none;
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .float-cta.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  .float-cta:hover{ background:var(--peach-deep); }
+
+  /* footer */
+  .footer{
+    padding:36px 0;
+    text-align:center;
+    font-size:.82rem;
+    color:var(--muted);
+    border-top:1px solid #f0f0f0;
+  }
+
+  /* ===== 반응형 ===== */
+  @media(max-width:820px){
+    .hero{ grid-template-columns:1fr; min-height:auto; padding:80px 0 60px; }
+    .hero__img{ display:none; }
+    .field-row{ grid-template-columns:1fr; gap:28px; }
+    .field-row:nth-child(even) .field__img{ order:0; }
+    .field__text, .field-row:nth-child(even) .field__text{ padding:0; }
+    .creds-wrap{ grid-template-columns:1fr; gap:20px; }
+    .works-wrap{ grid-template-columns:1fr; }
+    .philosophy__inner{ grid-template-columns:1fr; gap:40px; }
+    .philosophy__quote{ position:static; }
+    .section{ padding:72px 0; }
+    .philosophy{ padding:72px 0; }
+    .cta{ padding:80px 0; }
+  }
+
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(18px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    *{ animation:none!important; transition:none!important; }
+    .hero__label,.hero__hook,.hero__sub,.hero__img{ opacity:1; transform:none; }
+    .reveal{ opacity:1; transform:none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="wrap" style="display:contents;">
+    <div class="hero__text wrap" style="max-width:none; padding-left:clamp(20px,6vw,120px);">
+      <p class="hero__label">AI LITERACY INSTRUCTOR</p>
+      <h1 class="hero__hook">
+        <em>딸깍</em> 전에<br>
+        뭘 생각해야 하는지,<br>
+        그게 시작이에요
+      </h1>
+      <p class="hero__sub">도구 사용법보다 그 앞을 가르쳐요.<br>왜 하는지, 누구한테 하는지, 그걸 어떻게 말로 꺼내는지.<br>거기서 시작하면 AI는 생각보다 훨씬 잘 들어요.</p>
+    </div>
+    <div class="hero__img">
+      <div class="hero__img-frame">
+        <img src="images/profile.jpg" alt="강사 은미" onerror="this.style.display='none'">
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 강의 분야 -->
+<section class="section" id="fields">
+  <div class="wrap">
+    <p class="section__small reveal">WHAT I TEACH</p>
+    <h2 class="section__title reveal">세 가지로 가르쳐요</h2>
+    <p class="section__lead reveal d1">툴이 아니라, 쓸 줄 아는 힘을 연습하는 수업이에요.</p>
+
+    <div class="fields-wrap">
+
+      <div class="field-row reveal">
+        <div class="field__text">
+          <div class="field__num">01</div>
+          <h3 class="field__name">데이터 활용</h3>
+          <p class="field__desc">엑셀 7년의 감각으로 숫자를 읽고 자동화하는 법. 일일 장부·매출 분석·문서 작성을 AI와 함께 다루는 실무 중심 수업.</p>
+        </div>
+        <div class="field__img sky-bg">
+          <!-- <img src="field-data.jpg" alt="데이터 활용"> -->
+          이미지 준비 중
+        </div>
+      </div>
+
+      <div class="field-row reveal">
+        <div class="field__text">
+          <div class="field__num">02</div>
+          <h3 class="field__name">AI 표현</h3>
+          <p class="field__desc">글·이미지·영상, 만들고 싶은 걸 AI로 꺼내는 법. 프롬프트로 원하는 결과를 끌어내고 도구를 골라 쓰는 표현 수업.</p>
+        </div>
+        <div class="field__img peach-bg">
+          <!-- <img src="field-express.jpg" alt="AI 표현"> -->
+          이미지 준비 중
+        </div>
+      </div>
+
+      <div class="field-row reveal">
+        <div class="field__text">
+          <div class="field__num">03</div>
+          <h3 class="field__name">디지털 자기표현</h3>
+          <p class="field__desc">내 이야기를 디지털로 정리하고 세상에 내보내는 법. 블로그·콘텐츠·포트폴리오로 나를 표현하는 자기서사 수업.</p>
+        </div>
+        <div class="field__img sky-bg">
+          <!-- <img src="field-self.jpg" alt="디지털 자기표현"> -->
+          이미지 준비 중
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 강의 배경 -->
+<section class="section bg-section">
+  <div class="wrap">
+    <p class="section__small reveal">BACKGROUND</p>
+    <h2 class="section__title reveal">이런 사람이에요</h2>
+    <p class="section__lead reveal d1">직접 해봤기 때문에, 어디서 막히는지 알아요.</p>
+
+    <div class="creds-wrap">
+      <div class="cred reveal">
+        <div class="cred__dot"></div>
+        <span class="cred__main">7년 · 회계·매출 데이터 분석 실무</span>
+        <span class="cred__sub">엑셀 기반 장부·정산·매출 분석 경력</span>
+      </div>
+      <div class="cred reveal d1">
+        <div class="cred__dot"></div>
+        <span class="cred__main">디지털배움터 보조강사</span>
+        <span class="cred__sub">디지털 취약계층 대상 현장 교육 경험</span>
+      </div>
+      <div class="cred reveal">
+        <div class="cred__dot"></div>
+        <span class="cred__main">김포 평생학습관 등록 강사</span>
+        <span class="cred__sub">자체 설계 커리큘럼 운영</span>
+      </div>
+      <div class="cred reveal d1">
+        <div class="cred__dot"></div>
+        <span class="cred__main">AI 디지털 튜터 1급</span>
+        <span class="cred__sub">AI 활용 교육 자격 보유</span>
+      </div>
+      <div class="cred reveal">
+        <div class="cred__dot"></div>
+        <span class="cred__main">장르소설 출판 7권+</span>
+        <span class="cred__sub">종이책·전자책 / 쓰는 법을 직접 아는 강사</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 직접 만든 것들 -->
+<section class="section">
+  <div class="wrap">
+    <p class="section__small reveal">PORTFOLIO</p>
+    <h2 class="section__title reveal">말보다 이게 낫겠죠</h2>
+    <p class="section__lead reveal d1">강의에서 하는 것들을 직접 만들어 쓰고 있어요.</p>
+
+    <div class="works-wrap">
+      <!-- 
+        ===== 이미지 교체 가이드 =====
+        images/ 폴더에 아래 파일명으로 넣으면 자동 반영돼요.
+        
+        work-season.jpg   → Season Road 스크린샷
+        work-still.jpg    → STILL 포스터 또는 오프닝 첫 이미지
+        work-invest.jpg   → SmartInvest 스크린샷
+        work-slide.jpg    → 슬라이드 가이드 스크린샷
+        profile.jpg       → 힉스필드로 만든 프로필 이미지 (히어로 섹션)
+        
+        이미지 없으면 파스텔 배경이 placeholder로 보여요.
+      -->
+
+      <a class="work reveal" href="https://hiation33-arch.github.io/season-road" target="_blank" rel="noopener">
+        <div class="work__thumb peach" id="thumb-season">
+          <img src="images/work-season.jpg" alt="Season Road" onerror="this.style.display='none'">
+        </div>
+        <span class="work__badge">공모전 1차 통과</span>
+        <h3 class="work__name">Season Road</h3>
+        <p class="work__desc">다국어 계절 관광 웹서비스. 한국관광공사 공공데이터 활용 공모전 예선 통과작.</p>
+      </a>
+
+      <a class="work reveal d1" href="#" target="_blank" rel="noopener">
+        <div class="work__thumb sky" id="thumb-still">
+          <img src="images/work-still.jpg" alt="STILL" onerror="this.style.display='none'">
+        </div>
+        <span class="work__badge sky">영상 기획·연출</span>
+        <h3 class="work__name">STILL</h3>
+        <p class="work__desc">기획·연출·제작 전 과정 직접 진행. GMAC×MBC 마스터클래스 참여 프로젝트.</p>
+      </a>
+
+      <a class="work reveal" href="https://hiation33-arch.github.io/smartinvest" target="_blank" rel="noopener">
+        <div class="work__thumb sky" id="thumb-invest">
+          <img src="images/work-invest.jpg" alt="SmartInvest" onerror="this.style.display='none'">
+        </div>
+        <span class="work__badge sky">웹앱 · AI API</span>
+        <h3 class="work__name">SmartInvest</h3>
+        <p class="work__desc">투자 판단을 돕는 웹앱. Claude API 기반으로 직접 설계·배포.</p>
+      </a>
+
+      <a class="work reveal d1" href="#">
+        <div class="work__thumb peach" id="thumb-slide">
+          <img src="images/work-slide.jpg" alt="슬라이드 가이드 시스템" onerror="this.style.display='none'">
+        </div>
+        <span class="work__badge">교육 자동화 도구</span>
+        <h3 class="work__name">슬라이드 가이드 시스템</h3>
+        <p class="work__desc">색상·스타일·장수만 정하면 일관된 강의 슬라이드 자동 완성.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- 강의 철학 -->
+<section class="philosophy">
+  <div class="wrap">
+    <div class="philosophy__inner">
+      <div class="reveal">
+        <p class="section__small">PHILOSOPHY</p>
+        <p class="philosophy__quote">
+          배우기는 배웠는데,<br>
+          <strong>그래서 나더러<br>뭘 하라는 거야.</strong>
+        </p>
+      </div>
+      <div class="philosophy__body reveal d1">
+        <p>AI는 시키는 대로 해요. 문제는 뭘 시켜야 할지 모른다는 거죠.</p>
+        <p>툴이 없어서가 아니에요. 왜 쓰는지, 뭘 위해 쓰는지가 먼저 없으면 AI는 그냥 신기한 것으로 끝나거든요.</p>
+        <p>저는 도구 사용법보다 그 앞을 가르쳐요. 왜 하는지, 누구한테 하는지, 그걸 어떻게 말로 꺼내는지. 거기서 시작하면 AI는 생각보다 훨씬 잘 들어요.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="contact">
+  <div class="wrap">
+    <h2 class="cta__title reveal">편하게 말 걸어보세요</h2>
+    <p class="cta__lead reveal d1">강의 문의, 일정 협의, 궁금한 점 무엇이든.<br>부담 없이 메시지 주시면 빠르게 답드릴게요.</p>
+    <a class="btn reveal d2" href="https://open.kakao.com/o/여기에링크" target="_blank" rel="noopener">
+      💬 카카오톡으로 문의하기
+    </a>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>AI 리터러시 강사 · 은미 &nbsp;·&nbsp; 경기 김포 &nbsp;·&nbsp; © 2026</p>
+</footer>
+
+<a class="float-cta" href="#contact">문의하기</a>
+
+<script>
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  },{ threshold:0.12, rootMargin:'0px 0px -6% 0px' });
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  const floatCta = document.querySelector('.float-cta');
+  const hero = document.querySelector('.hero');
+  new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ floatCta.classList.toggle('show', !e.isIntersecting); });
+  },{ threshold:0.1 }).observe(hero);
+</script>
+
+</body>
+</html>
