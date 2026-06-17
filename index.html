@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 리터러시 강사 · 은미</title>
+<title>AI 리터러시 강사 · 이은미</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -119,20 +119,11 @@
     aspect-ratio:1/1;
     border-radius:50%;
     overflow:hidden;
-    background:linear-gradient(145deg, var(--sky-soft) 0%, var(--peach-soft) 100%);
+    background:var(--sky-soft);
     display:flex; align-items:center; justify-content:center;
     font-size:.88rem;
     color:var(--sky-deep);
     letter-spacing:.05em;
-  }
-
-  /* 프로필 이미지 완성 전 자리표시자 */
-  .hero__img-ph{
-    font-family:var(--serif);
-    font-size:2.6rem;
-    font-weight:400;
-    color:rgba(141,202,232,.85);
-    letter-spacing:.12em;
   }
 
   .hero__img-frame img{
@@ -472,7 +463,7 @@
 <header class="hero">
   <div class="wrap" style="display:contents;">
     <div class="hero__text wrap" style="max-width:none; padding-left:clamp(20px,6vw,120px);">
-      <p class="hero__label">AI LITERACY INSTRUCTOR</p>
+      <p class="hero__label">이은미 · AI LITERACY INSTRUCTOR</p>
       <h1 class="hero__hook">
         <em>딸깍</em> 전에<br>
         뭘 생각해야 하는지,<br>
@@ -480,11 +471,9 @@
       </h1>
       <p class="hero__sub">도구 사용법보다 그 앞을 가르쳐요.<br>왜 하는지, 누구한테 하는지, 그걸 어떻게 말로 꺼내는지.<br>거기서 시작하면 AI는 생각보다 훨씬 잘 들어요.</p>
     </div>
-    <div class="hero__img">
+    <div class="hero__img" style="display:none;">
       <div class="hero__img-frame">
-        <!-- 힉스필드 프로필 완성되면 아래 span을 지우고 이 한 줄로 교체:
-             <img src="images/profile.jpg" alt="강사 은미"> -->
-        <span class="hero__img-ph">은미</span>
+        <img src="images/profile.jpg" alt="강사 은미" onerror="this.style.display='none'">
       </div>
     </div>
   </div>
@@ -668,7 +657,7 @@
 </section>
 
 <footer class="footer">
-  <p>AI 리터러시 강사 · 은미 &nbsp;·&nbsp; 경기 김포 &nbsp;·&nbsp; © 2026</p>
+  <p>AI 리터러시 강사 · 이은미 &nbsp;·&nbsp; 경기 &nbsp;·&nbsp; © 2026</p>
 </footer>
 
 <a class="float-cta" href="#contact">문의하기</a>
