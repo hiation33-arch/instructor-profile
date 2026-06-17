@@ -119,11 +119,20 @@
     aspect-ratio:1/1;
     border-radius:50%;
     overflow:hidden;
-    background:var(--sky-soft);
+    background:linear-gradient(145deg, var(--sky-soft) 0%, var(--peach-soft) 100%);
     display:flex; align-items:center; justify-content:center;
     font-size:.88rem;
     color:var(--sky-deep);
     letter-spacing:.05em;
+  }
+
+  /* 프로필 이미지 완성 전 자리표시자 */
+  .hero__img-ph{
+    font-family:var(--serif);
+    font-size:2.6rem;
+    font-weight:400;
+    color:rgba(141,202,232,.85);
+    letter-spacing:.12em;
   }
 
   .hero__img-frame img{
@@ -473,7 +482,9 @@
     </div>
     <div class="hero__img">
       <div class="hero__img-frame">
-        <img src="images/profile.jpg" alt="강사 은미" onerror="this.style.display='none'">
+        <!-- 힉스필드 프로필 완성되면 아래 span을 지우고 이 한 줄로 교체:
+             <img src="images/profile.jpg" alt="강사 은미"> -->
+        <span class="hero__img-ph">은미</span>
       </div>
     </div>
   </div>
