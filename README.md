@@ -2,7 +2,7 @@
 
 ## 바로 사용하기
 
-👉 **[강사 프로필 열기](https://hiation33-arch.github.io/instructor-profile/landing.html)**
+👉 **[강사 프로필 열기](https://hiation33-arch.github.io/instructor-profile/)**
 
 ---
 
@@ -20,5 +20,5 @@ AI 리터러시 강사 은미의 소개 페이지입니다.
 
 ## 사용 방법
 
-`landing.html`을 브라우저에서 열면 시작됩니다.  
-화면을 클릭하면 음악이 재생되며 프로필 페이지로 이동합니다.
+`index.html`을 브라우저에서 열면 시작됩니다.  
+스크롤하면 음악이 재생되며 프로필 페이지로 이어합니다.
