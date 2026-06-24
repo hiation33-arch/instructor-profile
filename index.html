@@ -891,14 +891,14 @@
      =========================================== */
   const bgm = document.getElementById('bgm');
   const muteToggle = document.getElementById('muteToggle');
-  let musicStarted = false;
+  let musicPlaying = false;
   let musicMuted = false;
 
-  function startMusicOnce(){
-    if (musicStarted) return;
-    musicStarted = true;
+  function startMusic(){
+    if (musicPlaying) return;
     bgm.volume = 0;
     bgm.play().then(() => {
+      musicPlaying = true;
       let vol = 0;
       const fadeIn = setInterval(() => {
         vol = Math.min(vol + 0.04, 0.45);
@@ -907,21 +907,23 @@
       }, 80);
       muteToggle.textContent = '🔊';
     }).catch(() => {
-      // 자동재생이 막힌 경우, 다음 사용자 클릭에서 재시도
-      musicStarted = false;
+      // 자동재생이 막힌 경우 — 다음 인터랙션에서 다시 시도 (once를 쓰지 않음)
+      musicPlaying = false;
     });
   }
 
-  // 첫 스크롤 또는 첫 클릭에서 음악 시작
-  window.addEventListener('scroll', startMusicOnce, { once:true, passive:true });
-  document.body.addEventListener('click', startMusicOnce, { once:true });
+  // 여러 신호를 모두 감지: window 스크롤, wheel, touchmove, 클릭
+  // sticky 레이아웃에서는 window scroll 이벤트가 기대만큼 안 잡히는 경우가 있어 보강
+  ['scroll', 'wheel', 'touchmove', 'click', 'keydown'].forEach(evt => {
+    window.addEventListener(evt, startMusic, { passive:true });
+  });
 
   muteToggle.addEventListener('click', (e) => {
     e.stopPropagation();
     musicMuted = !musicMuted;
     bgm.muted = musicMuted;
     muteToggle.textContent = musicMuted ? '🔇' : '🔊';
-    if (!musicStarted) startMusicOnce();
+    if (!musicPlaying) startMusic();
   });
 
   /* ===========================================
