@@ -44,19 +44,25 @@ const PROFILE = {
       name: "데이터 활용",
       desc: "엑셀 7년의 감각으로 숫자를 읽고 자동화하는 법. 일일 장부·매출 분석·문서 작성을 AI와 함께 다루는 실무 중심 수업.",
       imgClass: "sky-bg",
-      img: ""            // 이미지 파일명 넣으면 표시 (예: "images/field1.png")
+      img: "",            // 이미지 파일명 넣으면 표시 (예: "images/field1.png")
+      video: "",
+      poster: ""
     },
     {
       name: "AI 표현",
       desc: "글·이미지·영상, 만들고 싶은 걸 AI로 꺼내는 법. 프롬프트로 원하는 결과를 끌어내고 도구를 골라 쓰는 표현 수업.",
       imgClass: "peach-bg",
-      img: ""
+      img: "images/field-ai-expression.jpg",   // 그림동화 '바람이 부는 날' 中 한 장면
+      video: "",
+      poster: ""
     },
     {
       name: "디지털 자기표현",
       desc: "내 이야기를 디지털로 정리하고 세상에 내보내는 법. 블로그·콘텐츠·포트폴리오로 나를 표현하는 자기서사 수업.",
       imgClass: "sky-bg",
-      img: ""
+      img: "",
+      video: "",
+      poster: ""
     }
   ],
 
@@ -99,6 +105,15 @@ const PROFILE = {
       img: "images/stillposter.png",
       desc: "MBC C&I AMCA AI 영화제 상영작 (2026.8, 서울영화센터). 기획·연출·제작 전 과정 직접 진행.",
       link: ""                        // 영상 공개 링크 생기면 여기에
+    },
+    {
+      name: "바람이 부는 날",
+      badge: "AI 그림동화",
+      badgeClass: "",
+      thumbClass: "peach",
+      img: "images/windy-day-thumb.jpg",
+      desc: "민들레 씨앗의 여행을 그린 AI 그림동화. 글·그림·영상 전부 직접 만들고 완성했어요.",
+      link: "https://youtu.be/RXa_6IuSWQM"
     },
     {
       name: "SmartInvest",
