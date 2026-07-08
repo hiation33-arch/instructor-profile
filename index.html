@@ -595,6 +595,36 @@
     *{ animation:none!important; transition:none!important; }
     .reveal{ opacity:1; transform:none; }
   }
+
+  /* ===== 동적 효과 (v2) ===== */
+  /* 포트폴리오 카드 호버: 떠오름 + 썸네일 줌 */
+  .work{ transition: transform .35s ease; will-change: transform; }
+  .work:hover{ transform: translateY(-8px); }
+  .work__thumb{ transition: transform .35s ease, box-shadow .35s ease; }
+  .work:hover .work__thumb{ transform: scale(1.03); box-shadow: 0 18px 40px rgba(0,0,0,.10); }
+  .work__thumb img{ transition: transform .5s ease; }
+  .work:hover .work__thumb img{ transform: scale(1.06); }
+
+  /* 철학 인용구: 문장 순차 등장 */
+  .quote-line{
+    display: block;
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .philosophy .reveal.in .quote-line{ opacity: 1; transform: none; }
+  .philosophy .reveal.in .quote-line:nth-child(1){ transition-delay: .1s; }
+  .philosophy .reveal.in .quote-line:nth-child(2){ transition-delay: .55s; }
+  .philosophy .reveal.in .quote-line:nth-child(3){ transition-delay: 1.0s; }
+
+  /* 모션 최소화 설정 사용자 배려 */
+  @media (prefers-reduced-motion: reduce){
+    .reveal, .quote-line, .work, .work__thumb, .work__thumb img{
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+  }
 </style>
 </head>
 <body>
@@ -760,7 +790,9 @@
       </a>`).join('');
 
     $('philSmall').textContent = P.philosophy.small;
-    $('philQuote').innerHTML = P.philosophy.quote;
+    $('philQuote').innerHTML = P.philosophy.quoteLines.map(l =>
+      `<span class="quote-line">${l.strong ? '<strong>'+l.text+'</strong>' : l.text}</span>`
+    ).join('');
     $('philBody').innerHTML = P.philosophy.body.map(t => `<p>${t}</p>`).join('');
 
     $('ctaTitle').textContent = P.cta.title;
@@ -897,8 +929,32 @@
   /* ===========================================
      3. 콘텐츠 섹션 reveal 애니메이션
      =========================================== */
+  /* 숫자 카운트업 — "7년", "7권+" 등 2 이상의 숫자만 애니메이션 */
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function countUp(el){
+    if (reduceMotion) return;
+    const m = el.textContent.match(/\d+/);
+    if (!m || parseInt(m[0]) < 2) return;
+    const target = parseInt(m[0]);
+    const original = el.textContent;
+    const start = performance.now(), durMs = 900;
+    function tick(now){
+      const p = Math.min((now - start) / durMs, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = original.replace(m[0], String(Math.round(target * eased)));
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
   const io = new IntersectionObserver((entries)=>{
-    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('in');
+        e.target.querySelectorAll('.cred__main').forEach(countUp);
+        io.unobserve(e.target);
+      }
+    });
   },{ threshold:0.12, rootMargin:'0px 0px -6% 0px' });
   document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 

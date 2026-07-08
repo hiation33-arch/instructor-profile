@@ -71,6 +71,7 @@ const PROFILE = {
     { main: "디지털배움터 보조강사", sub: "디지털 취약계층 대상 현장 교육 경험" },
     { main: "김포 평생학습관 등록 강사", sub: "자체 설계 커리큘럼 운영" },
     { main: "AI 디지털 튜터 1급", sub: "AI 활용 교육 자격 보유" },
+    { main: "AI-POT 프롬프트 활용능력 1급", sub: "프롬프트 설계·활용 자격 취득" },
     { main: "장르소설 출판 7권+", sub: "종이책·전자책 / 쓰는 법을 직접 아는 강사" }
   ],
 
@@ -115,14 +116,18 @@ const PROFILE = {
       thumbClass: "peach",
       img: "images/slide-gide.png",
       desc: "색상·스타일·장수만 정하면 일관된 강의 슬라이드 자동 완성.",
-      link: ""
+      link: "https://hiation33-arch.github.io/slide-guide-dashboard/"
     }
   ],
 
   /* ---------- 강의 철학 ---------- */
   philosophy: {
     small: "PHILOSOPHY",
-    quote: "배우기는 배웠는데,<br><strong>그래서 나더러<br>뭘 하라는 거야.</strong>",
+    quoteLines: [
+      { text: "배우기는 배웠는데,", strong: false },
+      { text: "그래서 나더러", strong: true },
+      { text: "뭘 하라는 거야.", strong: true }
+    ],
     body: [
       "AI는 시키는 대로 해요. 문제는 뭘 시켜야 할지 모른다는 거죠.",
       "툴이 없어서가 아니에요. 왜 쓰는지, 뭘 위해 쓰는지가 먼저 없으면 AI는 그냥 신기한 것으로 끝나거든요.",
