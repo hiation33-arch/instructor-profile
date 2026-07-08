@@ -29,24 +29,13 @@
     to{ transform:scale(1.06); }
   }
 
-  /* 커튼 영상 */
+  /* 커튼 영상 (이음매 없는 루프 → loop 속성만으로 매끄럽게 반복) */
   .curtain-video{
     position:fixed; inset:0;
     width:100%; height:100%;
     object-fit:cover;
     z-index:2;
   }
-
-  /* 루프 튐 페이드 처리 */
-  .loop-fade{
-    position:fixed; inset:0;
-    background:#fff;
-    z-index:3;
-    opacity:0;
-    pointer-events:none;
-    transition: opacity .5s ease;
-  }
-  .loop-fade.show{ opacity:1; }
 
   /* 빛 효과 */
   .curtain-light{
@@ -125,22 +114,16 @@
     50%{ opacity:.7; }
   }
 
-  /* 진입 트랜지션 */
-  .curtain-bg,
-  .curtain-video,
-  .curtain-light,
-  .veil,
-  .center{
-    transition: opacity .9s ease;
-  }
-
-  body.leaving .curtain-bg,
-  body.leaving .curtain-video,
-  body.leaving .curtain-light,
-  body.leaving .veil,
-  body.leaving .center{
+  /* 진입 트랜지션 : 흰색 브릿지 (index.html 배경=흰색과 이음매 없이 연결) */
+  .exit-veil{
+    position:fixed; inset:0;
+    background:#fff;
+    z-index:50;
     opacity:0;
+    pointer-events:none;
+    transition: opacity .6s ease;
   }
+  .exit-veil.show{ opacity:1; }
 
   @media (prefers-reduced-motion:reduce){
     .curtain-bg{ animation:none; }
@@ -153,12 +136,11 @@
 
 <div class="curtain-bg"></div>
 
-<!-- curtain.mp4 파일을 폴더에 넣으면 자동으로 영상으로 전환됩니다 -->
-<video class="curtain-video" id="curtainVideo" autoplay muted playsinline>
+<!-- 이음매 없는 루프 영상 : poster로 첫 깜빡임까지 방지 -->
+<video class="curtain-video" id="curtainVideo" autoplay muted loop playsinline poster="curtain.png">
   <source src="curtain.mp4" type="video/mp4">
 </video>
 
-<div class="loop-fade" id="loopFade"></div>
 <div class="curtain-light"></div>
 <div class="veil"></div>
 
@@ -172,44 +154,23 @@
   <p class="hint">화면을 클릭하면 시작합니다</p>
 </div>
 
+<!-- 클릭 시 화면 전체가 흰색으로 차오른 뒤 프로필 페이지로 이동 -->
+<div class="exit-veil" id="exitVeil"></div>
+
 <audio id="bgm" loop preload="auto">
   <source src="Morning_Breeze.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-  const video = document.getElementById('curtainVideo');
-  const loopFade = document.getElementById('loopFade');
   const bgm = document.getElementById('bgm');
+  const exitVeil = document.getElementById('exitVeil');
   let entered = false;
 
-  // 영상 끝 0.8초 전 페이드 시작
-  video.addEventListener('timeupdate', () => {
-    if (!video.duration) return;
-    const remaining = video.duration - video.currentTime;
-    if (remaining < 0.8) {
-      loopFade.classList.add('show');
-    }
-  });
-
-  // 영상 종료 → 수동 루프: seeked + 2 rAF 후 페이드 제거 (회색 프레임 방지)
-  video.addEventListener('ended', () => {
-    video.currentTime = 0;
-    video.play().catch(() => {});
-    const onSeeked = () => {
-      video.removeEventListener('seeked', onSeeked);
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        loopFade.classList.remove('show');
-      }));
-    };
-    video.addEventListener('seeked', onSeeked);
-  });
-
-  // 클릭시 진입
   document.body.addEventListener('click', () => {
     if (entered) return;
     entered = true;
 
-    // play() 성공 확인 후 볼륨 페이드인 시작
+    // BGM 볼륨 페이드인
     bgm.volume = 0;
     bgm.play().then(() => {
       let vol = 0;
@@ -220,10 +181,11 @@
       }, 80);
     }).catch(() => {});
 
-    document.body.classList.add('leaving');
+    // 흰색 브릿지 → 이동
+    exitVeil.classList.add('show');
     setTimeout(() => {
       window.location.href = 'index.html';
-    }, 950);
+    }, 650);
   });
 </script>
 
