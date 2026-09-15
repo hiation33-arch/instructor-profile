@@ -344,6 +344,7 @@
   }
 
   .field__img{
+    position:relative;
     width:100%;
     aspect-ratio:4/3;
     border-radius:20px;
@@ -357,6 +358,20 @@
   .field__img.sky-bg{ background:var(--sky-soft); color:var(--sky-deep); }
 
   .field__img img{ width:100%; height:100%; object-fit:cover; }
+
+  .field__sample{
+    position:absolute;
+    top:12px; right:12px;
+    padding:5px 11px;
+    border-radius:999px;
+    background:rgba(20,20,28,.72);
+    color:#fff;
+    font-size:.66rem;
+    font-weight:700;
+    letter-spacing:.12em;
+    backdrop-filter:blur(4px);
+    -webkit-backdrop-filter:blur(4px);
+  }
 
   /* ===== 강의 배경 ===== */
   .bg-section{ background:var(--white); }
@@ -635,7 +650,7 @@
 <div class="curtain-stage" id="curtainStage">
   <div class="curtain-sticky" id="curtainSticky">
     <div class="curtain-bg"></div>
-    <video class="curtain-video" id="curtainVideo" muted loop playsinline poster="curtain.png">
+    <video class="curtain-video" id="curtainVideo" muted loop playsinline preload="auto" poster="curtain.png">
       <source src="curtain.mp4" type="video/mp4">
     </video>
     <div class="curtain-light"></div>
@@ -762,7 +777,7 @@
           <p class="field__desc">${f.desc}</p>
         </div>
         <div class="field__img ${f.imgClass}">
-          ${f.img ? `<img src="${f.img}" alt="${f.name}" style="width:100%;height:100%;object-fit:cover;" onerror="this.remove()">` : '이미지 준비 중'}
+          ${f.img ? `<img src="${f.img}" alt="${f.name}" loading="lazy" style="width:100%;height:100%;object-fit:cover;" onerror="this.remove()">${f.sample ? '<span class="field__sample">SAMPLE</span>' : ''}` : '이미지 준비 중'}
         </div>
       </div>`).join('');
 

@@ -44,7 +44,8 @@ const PROFILE = {
       name: "데이터 활용",
       desc: "엑셀 7년의 감각으로 숫자를 읽고 자동화하는 법. 일일 장부·매출 분석·문서 작성을 AI와 함께 다루는 실무 중심 수업.",
       imgClass: "sky-bg",
-      img: "",            // 이미지 파일명 넣으면 표시 (예: "images/field1.png")
+      img: "images/field-data.png",   // 매출 대시보드 (가상 데이터)
+      sample: true,                    // 우측 상단에 SAMPLE 배지 표시
       video: "",
       poster: ""
     },
@@ -60,7 +61,7 @@ const PROFILE = {
       name: "디지털 자기표현",
       desc: "내 이야기를 디지털로 정리하고 세상에 내보내는 법. 블로그·콘텐츠·포트폴리오로 나를 표현하는 자기서사 수업.",
       imgClass: "sky-bg",
-      img: "",
+      img: "images/field-self-expression.png",   // 짧은 자서전 도구 화면
       video: "",
       poster: ""
     }
