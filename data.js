@@ -73,11 +73,14 @@ const PROFILE = {
     lead: "직접 해봤기 때문에, 어디서 막히는지 알아요."
   },
   creds: [
+    { main: "고등학교 AI교육 코디네이터", sub: "공공데이터 활용 바이브코딩 수업 운영 · 교원연수 기획" },
     { main: "7년 · 회계·매출 데이터 분석 실무", sub: "엑셀 기반 장부·정산·매출 분석 경력" },
-    { main: "디지털배움터 보조강사", sub: "디지털 취약계층 대상 현장 교육 경험" },
-    { main: "김포 평생학습관 등록 강사", sub: "자체 설계 커리큘럼 운영" },
+    { main: "AI 디지털배움터 강사(경기기업비서 과정)", sub: "강의 일정 확정 · 디지털 취약계층 대상 현장 교육 경험" },
+    { main: "김포 평생학습관 등록 강사", sub: "\"AI와 함께 나의 이야기 쓰기\" 강좌 운영 (인문교양 · 대면 12회차)" },
     { main: "AI 디지털 튜터 1급", sub: "AI 활용 교육 자격 보유" },
     { main: "AI-POT 프롬프트 활용능력 1급", sub: "프롬프트 설계·활용 자격 취득" },
+    { main: "Google · Gemini 공인 교육 전문가", sub: "AI 교육 공인 자격 2종 취득 (유효 ~2029)" },
+    { main: "독서논술지도사 Level 1", sub: "초등 고학년 그룹 지도 경험 보유" },
     { main: "장르소설 출판 7권+", sub: "종이책·전자책 / 쓰는 법을 직접 아는 강사" }
   ],
 
@@ -90,7 +93,7 @@ const PROFILE = {
   works: [
     {
       name: "Season Road",
-      badge: "공모전 1차 통과",
+      badge: "공모전 2차 심사 중",
       badgeClass: "",                 // "" = 피치 / "sky" = 하늘색
       thumbClass: "peach",
       img: "images/seasonroad.png",
@@ -103,7 +106,7 @@ const PROFILE = {
       badgeClass: "sky",
       thumbClass: "sky",
       img: "images/stillposter.png",
-      desc: "MBC C&I AMCA AI 영화제 상영작 (2026.8, 서울영화센터). 기획·연출·제작 전 과정 직접 진행.",
+      desc: "MBC C&I AMCA AI 영화제 상영작 (2026.8, 서울영화센터). 40초 편집본은 부산영화의 전당 AI 캠페인 옥외 송출작으로 선정되어 2026.9.4부터 약 한 달간 송출 중. 기획·연출·제작 전 과정 직접 진행.",
       link: ""                        // 영상 공개 링크 생기면 여기에
     },
     {
