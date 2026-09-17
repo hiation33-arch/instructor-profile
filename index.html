@@ -650,7 +650,7 @@
 <div class="curtain-stage" id="curtainStage">
   <div class="curtain-sticky" id="curtainSticky">
     <div class="curtain-bg"></div>
-    <video class="curtain-video" id="curtainVideo" muted loop playsinline preload="auto" poster="curtain.png">
+    <video class="curtain-video" id="curtainVideo" muted loop playsinline autoplay preload="auto" poster="curtain.png">
       <source src="curtain.mp4" type="video/mp4">
     </video>
     <div class="curtain-light"></div>
@@ -835,13 +835,24 @@
   function setupVideoScroll(){
     const dur = video.duration && isFinite(video.duration) ? video.duration : 6;
 
+    // 진입 시엔 자동재생하다가, 사용자가 스크롤을 시작하면
+    // 그때부터 스크롤 위치에 영상을 연동(스크럽)한다.
+    let handedOff = false;
+    try{ video.play().catch(function(){}); }catch(e){}
+
     ScrollTrigger.create({
       trigger: curtainStage,
       start: 'top top',
       end: 'bottom top',
       scrub: true,
       onUpdate(self){
-        try{ video.currentTime = self.progress * dur; }catch(e){}
+        if (!handedOff && self.progress > 0.001){
+          handedOff = true;
+          try{ video.pause(); }catch(e){}
+        }
+        if (handedOff){
+          try{ video.currentTime = self.progress * dur; }catch(e){}
+        }
       }
     });
 
